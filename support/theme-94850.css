@@ -75,3 +75,18 @@
     margin-top: 40px;
     font-size: 0.9em; }
 }
+
+
+.title-area .backdrop {
+  background: rgba(0,0,0,.5);
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.title-card .headline h5 {
+  font-size: 80px;
+  text-shadow: 0 0 10px rgba(0,0,0,.3);
+}
+
+
