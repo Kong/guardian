@@ -38,17 +38,17 @@
   font-family: montserrat, sans-serif;
   color: #fff;
   font-weight: bold;
-  font-size: 1.3em; }
+  font-size: 1.5em; }
 
 .title-card h5 {
   margin-top: 150px;
-
   font-family: montserrat, sans-serif;
   font-weight: bold;
   color: #fff;
   text-transform: uppercase;
   letter-spacing: 2px;
-  font-size: 1.8em; }
+  font-size: 1.8em;
+  line-height: 80px; }
 
 .title-card h5 span {
   display: inline-block;
