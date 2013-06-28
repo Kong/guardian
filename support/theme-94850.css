@@ -90,3 +90,98 @@
 }
 
 
+
+
+/* HEADER
+================================================== */
+header{
+    padding:25px 25px;
+    padding-bottom:9px; 
+    margin-bottom:70px;
+    position: fixed;
+    z-index: 100;
+    width: 100%;
+    font-family: helvetica, arial, sans-serif;
+    font-size: 12px;
+    font-weight: 100;
+    background: rgba(0,0,0,.9);
+}
+
+header .container {
+  margin: 0 auto;
+  position: relative;
+}
+
+header .github {
+  float: right;
+  position: relative;
+  right: 20px;
+  top:5px;
+}
+
+header .github div {
+  display: none;
+}
+
+header li.active {
+  border-bottom: 3px solid #9ac96f;
+}
+
+#logo{
+    float:left;
+}
+
+#logo img {
+  height:35px;
+}
+
+/*Navigation*/
+#navigation{
+    float:left;
+    margin-top:5px;
+    margin-left:30px;
+    padding-left:30px;
+    list-style:none;
+}             
+
+#navigation li{
+    float:left;
+    margin-right:40px;
+}
+
+#navigation li a{
+    text-transform:uppercase;
+    text-decoration: none;
+    font-weight:100;
+    font-size:12px;  
+    color:#d5dae1;
+}
+
+#navigation li a:hover{color:#fff;}
+
+/*Social Links*/
+#social{
+    position:absolute;
+    top:0px;
+    right: 40px;
+    list-style:none;
+}
+
+#social li{
+    float:left;
+    margin-left:10px;
+}
+
+#social li a{
+    opacity:.5;
+}
+
+#social li a:hover{
+    opacity:1;
+}
+
+.big-text {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 4px 0;
+}
