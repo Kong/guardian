@@ -77,7 +77,7 @@
     <div class='left'>
       <h1><a href='index.html'>Guardian.js</a></h1>
       <ul>
-        <li><a href='https://github.com/Mashape/guardian'>View on GitHub</a></li>
+        <li><a href='https://github.com/Mashape/guardian' class="github-link">View on GitHub</a></li>
         <li><a href='#docs'>Documentation</a></li>
       </ul>
     </div>
@@ -94,11 +94,18 @@
       <div class='bottom section'>
         <iframe src='http://ghbtns.com/github-btn.html?user=Mashape&repo=guardian&type=watch&count=true' allowtransparency="true" frameborder="0" scrolling="0" width="170" height="20"></iframe>
         <br/><br/>
-        <a href='https://github.com/mashape/guardian' target='_blank'>View on GitHub</a>
+        <a href='https://github.com/mashape/guardian' target='_blank' class="github-link">View on GitHub</a>
 
       </div>
     </div>
     <div role='flatdoc-content' class='content'></div>
   </div>
+
+  <script type="text/javascript">
+  var analytics=analytics||[];(function(){var e=["identify","track","trackLink","trackForm","trackClick","trackSubmit","page","pageview","ab","alias","ready","group"],t=function(e){return function(){analytics.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var n=0;n<e.length;n++)analytics[e[n]]=t(e[n])})(),analytics.load=function(e){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src=("https:"===document.location.protocol?"https://":"http://")+"d2dq2ahtl5zl1z.cloudfront.net/analytics.js/v1/"+e+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(t,n)};
+    analytics.load("iae3f2aqwg");
+    var link = $('.github-link');
+    analytics.trackLink(link, 'View on GitHub');
+</script>
 </body>
 </html>
