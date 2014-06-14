@@ -13,9 +13,9 @@ module.exports = {
     expire: 60
   },
   cookie: {
-    secret: 'maeby, lets keep it a secret?'
+    secret: require('node-uuid').v4()
   },
   session: {
-    secret: 'no-more-secrets'
+    secret: require('node-uuid').v4()
   }
 };
