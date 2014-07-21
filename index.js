@@ -116,6 +116,7 @@ ascii.write("guardian", "Thick", function (art) {
         oauth_token: req.param('oauth_token'),
         callbackUrl: req.param('redirect') ? req.param('redirect') : config.protocol + '://' + config.host + '/callback',
         version: req.param('version'),
+        type: req.param('type'),
 
         auth: {
           type: (req.param('auth_type') || 'oauth').replace(/[^a-z]/g, ''),
