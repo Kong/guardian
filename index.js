@@ -166,9 +166,16 @@ ascii.write("guardian", "Thick", function (art) {
         // Generate output
         res.jsonp({ hash: id, url: config.protocol + '://' + config.host + '/start?hash=' + id });
       } catch (e) {
-        res.jsonp(500, {
-          code: 'PLUGIN_MISSING',
-          message: 'Invalid plugin specified, could not find plugin: ' + opts.auth.type.toLowerCase() + path.flow + path.version + path.leg
+        if (e.message === 'PLUGIN_MISSING') {
+          return res.jsonp(500, {
+            code: 'PLUGIN_MISSING',
+            message: 'Invalid plugin specified, could not find plugin: ' + opts.auth.type.toLowerCase() + path.flow + path.version + path.leg
+          });
+        }
+        
+        return res.jsonp(500, {
+          code: 'ERROR',
+          message: e.message
         });
       }
     });
