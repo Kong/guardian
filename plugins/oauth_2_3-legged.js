@@ -34,7 +34,7 @@ module.exports = {
       },
 
       next: function (server, response, next) {
-        if (response.error)
+        if (response.error) {
           return helper.handleCallback(server.req.session.data, server, {
             status: 500,
 
@@ -43,10 +43,11 @@ module.exports = {
               data: response.error.data
             }
           });
+        }
 
         next({
           access_token: response.token,
-          refresh_token: response.refresh,
+          refresh_token: response.secret,
           expires_in: response.results.expires_in,
           token_type: response.results.token_type
         });

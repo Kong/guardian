@@ -27,9 +27,10 @@ module.exports = {
   },
 
   "validate": function (opts) {
-    if (!opts.call_url)
+    if (!opts.call_url) {
       return "Call Url is required.";
-
+    }
+    
     return undefined;
   }
 };

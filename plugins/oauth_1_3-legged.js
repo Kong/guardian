@@ -12,7 +12,7 @@ module.exports = {
       },
 
       next: function (server, response, next) {
-        if (response.error)
+        if (response.error) {
           return helper.handleCallback(server.req.session.data, server, {
             status: 500,
 
@@ -21,10 +21,10 @@ module.exports = {
               data: response.error.data
             }
           });
+        }
 
         server.req.session.data.oauth_token = response.token;
         server.req.session.data.oauth_token_secret = response.secret;
-
         return next();
       }
     },
@@ -37,7 +37,7 @@ module.exports = {
 
     callback: {
       next: function (server, response, next) {
-        if (response.error)
+        if (response.error) {
           return helper.handleCallback(server.req.session.data, server, {
             status: 500,
 
@@ -46,10 +46,10 @@ module.exports = {
               data: response.error.data
             }
           });
+        }
 
         server.req.session.data.oauth_token = response.token;
         server.req.session.data.oauth_verifier = response.verifier;
-
         next();
       }
     },
@@ -62,12 +62,13 @@ module.exports = {
         opts.parameters.oauth_verifier = options.oauth_verifier;
         opts.parameters.oauth_token = options.oauth_token;
         opts.oauth_token_secret = options.oauth_token_secret;
-
         oa.getOAuthAccessToken(opts, options.next);
       },
 
       next: function (server, response, next) {
-        if (response.error)
+        var result;
+
+        if (response.error) {
           return helper.handleCallback(server.req.session.data, server, {
             status: 500,
 
@@ -76,12 +77,11 @@ module.exports = {
               data: response.error.data
             }
           });
+        }
 
-
-        var result = response.results||{};
+        result = response.results || {};
         result.access_token = response.token;
         result.access_secret = response.secret;
-
         next(result);
       }
     }

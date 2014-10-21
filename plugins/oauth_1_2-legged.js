@@ -14,7 +14,7 @@ module.exports = {
       },
 
       next: function (server, response, next) {
-        if (response.error)
+        if (response.error) {
           return helper.handleCallback(server.req.session.data, server, {
             status: 500,
 
@@ -23,6 +23,7 @@ module.exports = {
               data: response.error.data
             }
           });
+        }
 
         server.req.session.data.oauth_token = response.token;
         server.req.session.data.token_secret = response.secret;
@@ -42,7 +43,9 @@ module.exports = {
       },
 
       next: function (server, response, next) {
-        if (response.error)
+        var result;
+
+        if (response.error) {
           return helper.handleCallback(server.req.session.data, server, {
             status: 500,
 
@@ -51,11 +54,11 @@ module.exports = {
               data: response.error.data
             }
           });
+        }
 
-        var result = response.results||{};
+        result = response.results || {};
         result.access_token = response.token;
         result.access_secret = response.secret;
-
         next(result);
       }
     }
