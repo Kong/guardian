@@ -1,10 +1,17 @@
 # guardian
 
-Authentication gateway middle-man for simplifying OAuth requests with a plugin based architecture to allow quick iteration and implementation of new authentication schemes outside of normal or existing flows.
+Guardian allows you to avoid doing any coding for handling OAuth requests by handling the flow for you, built ontop of a powerful plugin architecture Guardian can handle even the most complex of OAuth flows.
 
-Created with love by http://mashape.com
+Created with love by [nijikokun](http://github.com/nijikokun) at http://mashape.com
+
+## Requirements
+
+- Node.js
+- Redis
 
 ## Install
+
+Setup redis, then:
 
 ```bash
 $ npm install guardian
@@ -64,7 +71,7 @@ Stores information given, returns hash to be used later on. `60` second life on 
 - `client_id`
 - `client_secret`
 - `grant_type`
-  *Highly dependant on flow state, and which flow you are accessing. Common values:*
+  *Some common values, depends on flow*
   - `authorization_code`
   - `client_credentials`
   - `password`
@@ -160,6 +167,8 @@ Begins guardian transactions and authentication steps. These steps are passed wi
 ## Tests
 
 Each test in the test folder is based on an API or feature of guardian rather than TDD or BDD based tests, we simply verify whether the authentication succeeds and we get a response from the API about the API information rather than Authentication information.
+
+Tests also serve as good [examples](tests/).
 
 Each API based test will require something of the likes:
 
