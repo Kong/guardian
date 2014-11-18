@@ -1,111 +1,304 @@
 <!doctype html>
 <html>
-<head>
-  <meta charset='utf-8'>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Guardian by Mashape</title>
 
-  <title>Guardian.js - Authentication Gateway Middle-man</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Guardian</h1>
+        <p>Remove the OAuth dance with one request.</p>
 
-  <!-- Flatdoc -->
-  <script src='support/vendor/jquery.js'></script>
-  <script src='legacy.js'></script>
-  <script src='flatdoc-94850.js'></script>
-
-  <!-- Flatdoc theme -->
-  <link  href='theme-white/style-94850.css' rel='stylesheet'>
-  <script src='theme-white/script-94850.js'></script>
-  <link  href='support/theme-94850.css' rel='stylesheet'>
-  <script src='support/theme-94850.js'></script>
-
-  <!-- Initializer -->
-  <script>
-    Flatdoc.run({
-      fetcher: Flatdoc.github('Mashape/guardian')
-    });
+        <p class="view"><a href="https://github.com/Mashape/guardian">View the Project on GitHub <small>Mashape/guardian</small></a></p>
 
 
-    $(document).ready(function(){   
-      $(window).scroll(function() {
-          var yPos = ($(window).scrollTop() / 2.5); 
-           console.log(yPos);
-          // Move the background
-          $('.in').css({ top: yPos });
-      }); 
-  }); 
-
-  </script>
-
-</head>
-<body role='flatdoc' class='big-h3 large-brief'>
-
-
-  <header>
-    <div class="container">
-      <!-- Logo -->
-      <a href="https://mashape.com/" id="logo"><img src="https://s3.amazonaws.com/mashape-production-assets/images/logo_white.png" width="145" height="35" alt="Logo"></a>
-      <!-- Navigation -->
-      <ul id="navigation">
-        <li><a href="http://blog.mashape.com/">Blog</a></li>
-            <li><a href="http://oauthbible.com">OAuth Bible</a></li>  
-            <li class="active"><a href="http://guardianjs.com">Guardian.js</a></li>
-            <li ><a href="http://unirest.io">Unirest</a></li>
-      </ul>
-
-      <ul id="social">
-           <li><a href="http://www.twitter.com/mashape" id="twitter"><img src="http://static.tumblr.com/vbjnszm/Jpnmcbmpz/twitter.png" alt="Twitter"></a></li> 
-           <li><a href="https://github.com/mashape" id="github"><img src="http://static.tumblr.com/vbjnszm/gdAmccpnu/github.png" alt="Github"></a></li>   
-           <li><a href="https://facebook.com/mashape" id="facebook"><img src="http://static.tumblr.com/gtdjnrz/lbemlstyq/f-logo.png" alt="Mashape Facebook"></a></li>   
+        <ul>
+          <li><a href="https://github.com/Mashape/guardian/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/Mashape/guardian/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/Mashape/guardian">View On <strong>GitHub</strong></a></li>
         </ul>
+      </header>
+      <section>
+        <h1>
+<a id="guardian" class="anchor" href="#guardian" aria-hidden="true"><span class="octicon octicon-link"></span></a>Guardian</h1>
 
-      <div class="clear"></div>
+<p>Avoid dealing with OAuth logic in your code, and spend more time creating your product. Guardian reduces the OAuth footprint in your code to a <em>single</em> request.</p>
+
+<p>Built with modularity in mind, Guardian leverages plugins to handle OAuth flows, should you encounter a flow that Guardian doesn't handle, create a small flow plugin to do so and carry on. Guardian comes with <strong>5</strong> pre-made plugins that cover <strong>99%</strong> of OAuth services.</p>
+
+<p>Not to mention, Guardian is perfect for <strong>both</strong> production <em>and</em> testing. Services like Github require you to enter a single callback url, this is fine when in production, but move to another environment and soon you'll have conflicts, require building complex services to juggle environment scenarios and more. Guardian is centralized and easily configurable to allow multiple environments giving you the flexibility you need.</p>
+
+<p>Created with love by <a href="http://github.com/nijikokun">nijikokun</a> at <a href="http://mashape.com">http://mashape.com</a></p>
+
+<h2>
+<a id="requirements" class="anchor" href="#requirements" aria-hidden="true"><span class="octicon octicon-link"></span></a>Requirements</h2>
+
+<ul>
+<li>Node.js</li>
+<li>Redis</li>
+</ul>
+
+<h2>
+<a id="install" class="anchor" href="#install" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install</h2>
+
+<p>Setup redis, then:</p>
+
+<div class="highlight highlight-bash"><pre>$ npm install guardian</pre></div>
+
+<h2>
+<a id="starting" class="anchor" href="#starting" aria-hidden="true"><span class="octicon octicon-link"></span></a>Starting</h2>
+
+<div class="highlight highlight-bash"><pre>$ node index.js -c <span class="pl-ko">&lt;</span>configuration<span class="pl-ko">&gt;</span></pre></div>
+
+<h3>
+<a id="configuration" class="anchor" href="#configuration" aria-hidden="true"><span class="octicon octicon-link"></span></a>Configuration</h3>
+
+<p>Configuration files can be found in the <code>config</code> directory, when no configuration file is declared <code>default.js</code> is loaded, when declaring which file to use omit the <code>js</code> extension like so:</p>
+
+<div class="highlight highlight-bash"><pre>$ node index.js -c production</pre></div>
+
+<p>Basic Options:</p>
+
+<ul>
+<li>
+<p><code>host</code>
+<em>You should set this to be the public ip or domain name as it is utilized to generate the callback uri.</em></p>
+
+<p>Default: <code>localhost:3000</code></p>
+</li>
+<li>
+<p><code>protocol</code>
+<em>Host protocol</em></p>
+
+<p>Default: <code>http</code></p>
+</li>
+<li>
+<p><code>port</code>
+<em>Port on which guardian runs</em></p>
+
+<p>Default: <code>3000</code></p>
+</li>
+<li>
+<p><code>pid.dir</code>
+<em>Directory where the <code>.guardian.pid</code> file will be output, in production environments this is usually <code>/home/&lt;user&gt;/</code>, with trailing slash.</em></p>
+
+<p>Default: <code>./</code></p>
+</li>
+<li><code>redis.host</code></li>
+<li><code>redis.port</code></li>
+<li><code>redis.pass</code></li>
+</ul>
+
+<h2>
+<a id="routes" class="anchor" href="#routes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Routes</h2>
+
+<p>Each endpoint functions as a step.</p>
+
+<h3>
+<a id="storage" class="anchor" href="#storage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Storage</h3>
+
+<pre><code>POST /store
+</code></pre>
+
+<p>Stores information given, returns hash to be used later on. <code>60</code> second life on the hashed information by default.</p>
+
+<h4>
+<a id="parameters" class="anchor" href="#parameters" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parameters</h4>
+
+<p><strong>OAuth 2</strong></p>
+
+<blockquote>
+<p>Details specific to OAuth2</p>
+</blockquote>
+
+<ul>
+<li><code>client_id</code></li>
+<li><code>client_secret</code></li>
+<li>
+<code>grant_type</code>
+<em>Some common values, depends on flow</em>
+
+<ul>
+<li><code>authorization_code</code></li>
+<li><code>client_credentials</code></li>
+<li><code>password</code></li>
+<li><code>refresh_token</code></li>
+</ul>
+</li>
+<li>
+<code>access_name</code> <em>access token name, default <code>access_token</code></em>
+</li>
+<li>
+<code>authorize_method</code> <em>Optional; Authorization Header Method, default is <code>Bearer</code></em>
+
+<ul>
+<li>Some Possible Values:</li>
+<li>
+<code>Bearer</code> <em>default</em>
+</li>
+<li><code>OAuth</code></li>
+<li><code>Digest</code></li>
+</ul>
+</li>
+<li><code>state</code></li>
+<li><code>scope</code></li>
+</ul>
+
+<p><strong>OAuth 1</strong></p>
+
+<blockquote>
+<p>Details specific to OAuth 1.0a</p>
+</blockquote>
+
+<ul>
+<li><code>consumer_key</code></li>
+<li><code>consumer_secret</code></li>
+<li><code>signature_method</code></li>
+<li><code>oauth_token</code></li>
+</ul>
+
+<p><strong>Authentication</strong> <em>required</em></p>
+
+<blockquote>
+<p>General information regarding authentication flow to load plugin, e.g.</p>
+</blockquote>
+
+<ul>
+<li>
+<p><code>auth_type</code> <em>a-z chars accepted only</em></p>
+
+<p>Default: <code>oauth</code></p>
+</li>
+<li>
+<p><code>auth_flow</code> <em>optional; a-z_ chars accepted only</em></p>
+
+<blockquote>
+<p>This would be a specific flow, a niche if you may. Echo, Owner Resources, etc..</p>
+</blockquote>
+</li>
+<li>
+<p><code>auth_version</code> <em>optional; numeric chars only</em></p>
+
+<blockquote>
+<p>What version of <code>auth_type</code> are we dealing with?</p>
+</blockquote>
+</li>
+<li>
+<p><code>auth_leg</code> <em>optional; numeric chars only</em></p>
+
+<blockquote>
+<p>What leg of <code>auth_type</code> is this?</p>
+</blockquote>
+</li>
+</ul>
+
+<p>These are combined to create the plugin file name which is composed like so:</p>
+
+<div class="highlight highlight-js"><pre>type.lower <span class="pl-ko">+</span> (flow<span class="pl-ko">?</span> <span class="pl-s1"><span class="pl-pds">'</span>_<span class="pl-pds">'</span></span> <span class="pl-ko">+</span> flow <span class="pl-ko">:</span> <span class="pl-s1"><span class="pl-pds">'</span><span class="pl-pds">'</span></span>) <span class="pl-ko">+</span> (version<span class="pl-ko">?</span> <span class="pl-s1"><span class="pl-pds">'</span>_<span class="pl-pds">'</span></span> <span class="pl-ko">+</span> version <span class="pl-ko">:</span> <span class="pl-s1"><span class="pl-pds">'</span><span class="pl-pds">'</span></span>) <span class="pl-ko">+</span> (leg<span class="pl-ko">?</span> <span class="pl-s1"><span class="pl-pds">'</span>_<span class="pl-pds">'</span></span> <span class="pl-ko">+</span> leg <span class="pl-ko">+</span> <span class="pl-s1"><span class="pl-pds">'</span>-legged<span class="pl-pds">'</span></span> <span class="pl-ko">:</span> <span class="pl-s1"><span class="pl-pds">'</span><span class="pl-pds">'</span></span>)</pre></div>
+
+<p>For example, OAuth 2 (3-legged) plugin:</p>
+
+<div class="highlight highlight-js"><pre><span class="pl-c"><span class="pl-pdc">//</span> plugins/oauth_2_3-legged.js</span>
+
+{
+  auth_type<span class="pl-ko">:</span> <span class="pl-s1"><span class="pl-pds">'</span>oauth<span class="pl-pds">'</span></span>,
+  auth_version<span class="pl-ko">:</span> <span class="pl-cn">2</span>,
+  auth_leg<span class="pl-ko">:</span> <span class="pl-cn">3</span>
+}</pre></div>
+
+<p><strong>General</strong></p>
+
+<ul>
+<li><code>request_url</code></li>
+<li><code>access_url</code></li>
+<li><code>authorize_url</code></li>
+<li>
+<code>callback</code> <em>for access_token &amp; access_secret response</em>
+</li>
+</ul>
+
+<h3>
+<a id="hash-check" class="anchor" href="#hash-check" aria-hidden="true"><span class="octicon octicon-link"></span></a>Hash Check</h3>
+
+<pre><code>GET /hash-check
+</code></pre>
+
+<p>Allows you to preview / verify your stored information in-case of error or malformed response.</p>
+
+<p>Once again, stored information by default lasts only <code>10</code> seconds.</p>
+
+<h4>
+<a id="parameters-1" class="anchor" href="#parameters-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parameters</h4>
+
+<ul>
+<li><code>hash</code></li>
+</ul>
+
+<h3>
+<a id="start" class="anchor" href="#start" aria-hidden="true"><span class="octicon octicon-link"></span></a>Start</h3>
+
+<pre><code>ALL /start
+</code></pre>
+
+<p>Begins guardian transactions and authentication steps. These steps are passed with a <code>302</code> request and should be followed.</p>
+
+<h4>
+<a id="parameters-2" class="anchor" href="#parameters-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parameters</h4>
+
+<ul>
+<li><code>hash</code></li>
+</ul>
+
+<p><strong>OAuth 1.0a</strong></p>
+
+<blockquote>
+<p>Used in the OAuth 1.0a Signature Process for 1-Legged requests. <a href="https://github.com/Mashape/guardian/blob/master/tests/factual.js#L46">Example</a>.</p>
+</blockquote>
+
+<ul>
+<li>
+<code>url</code> <em>Calling URL, query parameters will be parsed from here as well as parameters property.</em>
+</li>
+<li>
+<code>method</code> <em>Calling Method</em>
+</li>
+<li>
+<code>body</code> <em>Calling Payload or Body</em>
+</li>
+<li>
+<code>parameters</code> <em>Calling Parameters for Request Signatures or etc...</em>
+</li>
+</ul>
+
+<h2>
+<a id="tests" class="anchor" href="#tests" aria-hidden="true"><span class="octicon octicon-link"></span></a>Tests</h2>
+
+<p>Each test in the test folder is based on an API or feature of guardian rather than TDD or BDD based tests, we simply verify whether the authentication succeeds and we get a response from the API about the API information rather than Authentication information.</p>
+
+<p>Tests also serve as good <a href="tests/">examples</a>.</p>
+
+<p>Each API based test will require something of the likes:</p>
+
+<pre><code>$ node tests/api.js -k {Your Consumer/Client Key/Id} -s {Your Consumer/Client Secret} -h {host, ie: localhost or domain}
+</code></pre>
+
+<p>You will recieve a response with the headers sent, and the returned response from the API, guardian must be running locally for these tests to work and on the port <code>3000</code>. Unless you alter these files~</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/Mashape">Mashape</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
     </div>
-  </header>
-
-  <div class='title-area title-card'>
-    <div class="backdrop"></div>
-    <img src='guardian.png' class='bg'>
-    <div class='in'>
-      <div class='headline'  data-speed="10">
-        <h5>Guardian.js</h5>
-        <p>Remove the OAuth dance with a single request.</p>
-      </div>
-    </div>
-  </div>
-
-  <div class='header'>
-    <div class='left'>
-      <h1><a href='index.html'>Guardian.js</a></h1>
-      <ul>
-        <li><a href='https://github.com/Mashape/guardian' class="github-link">View on GitHub</a></li>
-        <li><a href='#docs'>Documentation</a></li>
-      </ul>
-    </div>
-    <div class='right'>
-      <iframe src="http://ghbtns.com/github-btn.html?user=Mashape&repo=guardian&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
-    </div>
-  </div>
-
-  <div id="docs" class='content-root'>
-    <div class='menubar'>
-      <div class='section'>
-      </div>
-      <div class='menu section' role='flatdoc-menu'></div>
-      <div class='bottom section'>
-        <iframe src='http://ghbtns.com/github-btn.html?user=Mashape&repo=guardian&type=watch&count=true' allowtransparency="true" frameborder="0" scrolling="0" width="170" height="20"></iframe>
-        <br/><br/>
-        <a href='https://github.com/mashape/guardian' target='_blank' class="github-link">View on GitHub</a>
-
-      </div>
-    </div>
-    <div role='flatdoc-content' class='content'></div>
-  </div>
-
-  <script type="text/javascript">
-  var analytics=analytics||[];(function(){var e=["identify","track","trackLink","trackForm","trackClick","trackSubmit","page","pageview","ab","alias","ready","group"],t=function(e){return function(){analytics.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var n=0;n<e.length;n++)analytics[e[n]]=t(e[n])})(),analytics.load=function(e){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src=("https:"===document.location.protocol?"https://":"http://")+"d2dq2ahtl5zl1z.cloudfront.net/analytics.js/v1/"+e+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(t,n)};
-    analytics.load("iae3f2aqwg");
-    var link = $('.github-link');
-    analytics.trackLink(link, 'View on GitHub');
-</script>
-</body>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
 </html>
