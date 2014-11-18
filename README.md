@@ -1,4 +1,4 @@
-# guardian
+# Guardian
 
 Avoid dealing with OAuth logic in your code, and spend more time creating your product. Guardian reduces the OAuth footprint in your code to a *single* request.
 
