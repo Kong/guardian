@@ -1,6 +1,10 @@
 # guardian
 
-Guardian allows you to avoid doing any coding for handling OAuth requests by handling the flow for you, built ontop of a powerful plugin architecture Guardian can handle even the most complex of OAuth flows.
+Avoid dealing with OAuth logic in your code, and spend more time creating your product. Guardian reduces the OAuth footprint in your code to a *single* request.
+
+Built with modularity in mind, Guardian leverages plugins to handle OAuth flows, should you encounter a flow that Guardian doesn't handle, create a small flow plugin to do so and carry on. Guardian comes with **5** pre-made plugins that cover **99%** of OAuth services.
+
+Not to mention, Guardian is perfect for **both** production *and* testing. Services like Github require you to enter a single callback url, this is fine when in production, but move to another environment and soon you'll have conflicts, require building complex services to juggle environment scenarios and more. Guardian is centralized and easily configurable to allow multiple environments giving you the flexibility you need.
 
 Created with love by [nijikokun](http://github.com/nijikokun) at http://mashape.com
 
