@@ -82,7 +82,7 @@ blockquote {
 code, pre {
   color: #000;
   font-size: 14px;
-  font-family: Monaco, Bitstream Vera Sans Mono, Lucida Console, Terminal;
+  font-family: monospace;
 }
 
 code {
