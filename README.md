@@ -118,12 +118,12 @@ For example, [`plugins/oauth_2_3-legged.js`](/plugins/oauth_2_3-legged.js) (OAut
 
 ###### General
 
-| Key                        | Default                                  | Description                                                       |
-| -------------------------- | ---------------------------------------- | ----------------------------------------------------------------- |
-| `request_url`              |                                          | Authentication Request Url, e.g. `https://github.com/login/oauth/request_url` |
-| `access_url`               |                                          | Authentication Access Url, e.g. `https://github.com/login/oauth/access_token` |
-| `authorize_url`            |                                          | Authentication Authorization Url, e.g. `https://github.com/login/oauth/authorize` |
-| `callback`                 |                                          | Authentication Callback URL on requesting server to obtain `access_token` and `access_secret`, e.g. `http://localhost:3001/callback` |
+| Key                        | Description                                                       |
+| -------------------------- | ----------------------------------------------------------------- |
+| `request_url`              | Authentication Request Url, e.g. `https://github.com/login/oauth/request_url` |
+| `access_url`               | Authentication Access Url, e.g. `https://github.com/login/oauth/access_token` |
+| `authorize_url`            | Authentication Authorization Url, e.g. `https://github.com/login/oauth/authorize` |
+| `callback`                 | Authentication Callback URL on requesting server to obtain `access_token` and `access_secret`, e.g. `http://localhost:3001/callback` |
 
 #### Example
 
@@ -170,7 +170,10 @@ Once again, stored information by default lasts only `10` seconds.
 
 #### Parameters
 
-- `hash`
+
+| Key                        | Description                                                       |
+| -------------------------- | ----------------------------------------------------------------- |
+| `hash`                     | Guardian session hash obtained from [Storage](#storage)           |
 
 ### Start
 
@@ -182,16 +185,21 @@ Redirecting the client to this route starts the Guardian authentication steps, E
 
 #### Parameters
 
-- `hash` - *(Guardian storage hash)*
+| Key                        | Description                                                       |
+| -------------------------- | ----------------------------------------------------------------- |
+| `hash`                     | Guardian session hash obtained from [Storage](#storage)           |
 
 ###### OAuth 1.0a
 
 Used in the OAuth 1.0a Signature Process for 1-Legged requests. [Example](https://github.com/Mashape/guardian/blob/master/tests/factual.js#L46).
 
-- `url` *Calling URL, query parameters will be parsed from here as well as parameters property.*
-- `method` *Calling Method*
-- `body` *Calling Payload or Body*
-- `parameters` *Calling Parameters for Request Signatures or etc...*
+
+| Key                        | Description                                                       |
+| -------------------------- | ----------------------------------------------------------------- |
+| `url`                      | Request URL, query parameters will be parsed from here as well as parameters property. |
+| `method`                   | Request Method.                                                   |
+| `body`                     | Request Payload / Body. |
+| `parameters`               | Request Parameters for Request Signatures or etc... |
 
 ## Tests & Examples
 
