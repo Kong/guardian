@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-
 // jshint laxbreak: true
 
+// Global Requirements
 var cluster = require('cluster'),
     ascii   = require('asciimo').Figlet,
     colors  = require('colors'),
@@ -9,9 +9,10 @@ var cluster = require('cluster'),
     fs      = require('fs'),
     args    = require('optimist').options('c', {
       "alias": 'config',
-      "default": "default"
+      "default": false
     }).argv,
-    config = require('./config/' + args.config);
+    configLocation = args.config ? [process.cwd(), args.config].join('/') : './config/default',
+    config = require(configLocation);
 
 // Logging Setup
 var log = new (winston.Logger)({
@@ -23,25 +24,31 @@ var log = new (winston.Logger)({
 // Start Master and Workers
 ascii.write("guardian", "Thick", function (art) {
   if (cluster.isMaster) {
-    console.info("\n" + art.rainbow);
-
     var i = 0;
-    var pidPath = config.pid.dir + ".guardian.pid";
-
-    fs.writeFileSync(pidPath, process.pid, 'utf8');
+    var pidPath;
+    
+    // Load Banner
+    console.info("\n" + art.rainbow);
+    
+    // Load configuration
+    console.info("Configuration loaded from:", configLocation);
+    
+    // Generate PID file
+    pidPath = config.pid.dir + ".guardian.pid";
     console.info(("Master started with PID " + process.pid + ", saved at: " + pidPath).grey);
-    console.info("Starting server on port " + config.port);
-
+    fs.writeFileSync(pidPath, process.pid, 'utf8');
+    
+    // Output port server is running on.
+    console.info("Starting server on port ", config.port);
+    
+    // Cluster guardian instance
     for (i; i < config.workers; i++) cluster.fork();
   } else {
-    /*
-      guardian Setup
-    */
-    var gate    = require('./lib/core'), keeper;
+    // Core requirements
+    var gate    = require('./lib/core'), 
+        keeper;
 
-    /*
-      Express setup
-    */
+    // Requires
     var express = require('express'),
         redis   = require('redis'),
         query   = require('querystring'),
@@ -51,14 +58,10 @@ ascii.write("guardian", "Thick", function (art) {
         https   = require('https'),
         url     = require('url');
 
-    /*
-      Setup Express & Logger
-    */
+    // Setup Express & Logger
     var app = express();
 
-    /*
-      Setup Redis Storage for Sessions
-    */
+    // Setup Redis Storage for Sessions
     var RedisOptions = {};
     if (config.redis.pass) RedisOptions.no_ready_check = true;
 
@@ -66,10 +69,11 @@ ascii.write("guardian", "Thick", function (art) {
     var RedisClient = redis.createClient(config.redis.port, config.redis.host, RedisOptions);
     var RedisSession = new RedisStore({ client: RedisClient });
 
-    if (config.redis.pass)
+    if (config.redis.pass) {
       RedisClient.auth(config.redis.pass, function () {
         log.info('Authenticated redis client!');
       });
+    }
 
     // Configuration
     app.configure(function () {
