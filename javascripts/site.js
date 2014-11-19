@@ -5,3 +5,4 @@ e;if(a>=b)return g!=(e=f.last()[0])&&this.activate(e);for(e=c.length;e--;)g!=f[e
 b(this),c=d.data("scrollspy"),f="object"==typeof a&&a;c||d.data("scrollspy",c=new h(this,f));if("string"==typeof a)c[a]()})};b.fn.scrollspy.Constructor=h;b.fn.scrollspy.defaults={offset:10};b.fn.scrollspy.noConflict=function(){b.fn.scrollspy=k;return this};b(window).on("load",function(){b('[data-spy="scroll"]').each(function(){var a=b(this);a.scrollspy(a.data())})})}(window.jQuery);
 
 $('header').scrollspy();
+$('table').stacktable();

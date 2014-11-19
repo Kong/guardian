@@ -352,13 +352,37 @@ header ul li.active > a:hover {
   text-decoration: none;
 }
 
+.stacktable {
+  display: none;
+}
+
+.st-head-row.st-head-row-main {
+  display: none;
+}
+
+.st-head-row,
+.st-key,
+.st-val {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.st-head-row {
+  padding: 1.7em 0 .5em;
+}
+
+.st-key {
+  font-weight: 600;
+}
+
 /**
  * Responsiveness
  */
 
-@media print, screen and (max-width: 1020px) {
+@media print, screen and (max-width: 1120px) {
   div.wrapper {
-    width:auto;
+    width: auto;
     margin:0;
   }
 
@@ -366,6 +390,15 @@ header ul li.active > a:hover {
     float:none;
     position:static;
     width:auto;
+  }
+
+  table:not(.stacktable) {
+    display: none;
+  }
+
+  .stacktable {
+    display: table;
+    width: 100%;
   }
 
   header {
@@ -407,11 +440,21 @@ header ul li.active > a:hover {
 
 @media print, screen and (max-width: 480px) {
   body {
-    padding:15px;
+    padding: 130px 15px 15px;
+  }
+
+  nav.bar {
+    height: 32px;
+    overflow: hidden;
+  }
+
+  .banner .github-link {
+    position: absolute;
+    top: -10px;
   }
 
   header ul {
-    display:none;
+    display: none;
   }
 }
 
