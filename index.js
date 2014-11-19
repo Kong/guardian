@@ -11,7 +11,7 @@ var cluster = require('cluster'),
       "alias": 'config',
       "default": false
     }).argv,
-    configLocation = args.config ? process.cwd() + args.config : './config/default',
+    configLocation = args.config ? [process.cwd(), args.config].join('/') : './config/default',
     config = require(configLocation);
 
 // Logging Setup
