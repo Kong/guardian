@@ -11,7 +11,8 @@ var cluster = require('cluster'),
       "alias": 'config',
       "default": false
     }).argv,
-    config = args.config ? process.cwd() + args.config : './config/default.js';
+    configLocation = args.config ? process.cwd() + args.config : './config/default',
+    config = require(configLocation);
 
 // Logging Setup
 var log = new (winston.Logger)({
@@ -30,8 +31,7 @@ ascii.write("guardian", "Thick", function (art) {
     console.info("\n" + art.rainbow);
     
     // Load configuration
-    console.info("Loading configuration from:", config);
-    config = require(config);
+    console.info("Configuration loaded from:", configLocation);
     
     // Generate PID file
     pidPath = config.pid.dir + ".guardian.pid";
@@ -39,7 +39,7 @@ ascii.write("guardian", "Thick", function (art) {
     fs.writeFileSync(pidPath, process.pid, 'utf8');
     
     // Output port server is running on.
-    console.info("Starting server on port " + config.port);
+    console.info("Starting server on port ", config.port);
     
     // Cluster guardian instance
     for (i; i < config.workers; i++) cluster.fork();
