@@ -12,24 +12,70 @@
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
   </head>
-  <body>
+  <body data-spy="scroll">
+    <nav class="bar">
+      <div class="wrapper">
+        <a href="https://www.mashape.com" class="mashape-link">Go to Mashape.com</a>
+
+        <ul class="inline">
+          <li><a href="http://oauthbible.com">OAuth Bible</a></li>
+          <li><a href="http://unirest.io">Unirest</a></li>
+          <li><a href="http://publicapis.com">Public APIs</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="banner">
+      <div class="wrapper">
+        <a href="https://github.com/Mashape/guardian" class="github-link">Contribute on Github</a>
+
+        <h1>Guardian.js</h1>
+        <h2>Remove the OAuth dance with one request.</h2>
+      </div>
+    </div>
+
     <div class="wrapper">
       <header>
-        <h1>Guardian</h1>
-        <p>Remove the OAuth dance with one request.</p>
-
-        <p class="view"><a href="https://github.com/Mashape/guardian">View the Project on GitHub <small>Mashape/guardian</small></a></p>
-
-
         <ul>
-          <li><a href="https://github.com/Mashape/guardian/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/Mashape/guardian/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/Mashape/guardian">View On <strong>GitHub</strong></a></li>
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#requirements">Requirements</a></li>
+          <li><a href="#install">Install</a></li>
+          <li><a href="#usage">Usage</a>
+            <ul>
+              <li><a href="#configuration">Configuration</a></li>
+            </ul>
+          </li>
+          <li><a href="#routes">Routes</a>
+            <ul>
+              <li><a href="#storage">Storage</a></li>
+              <li><a href="#hash-check">Hash Check</a></li>
+              <li><a href="#start">Start</a></li>
+            </ul>
+          </li>
+          <li><a href="#tests--examples">Tests & Examples</a></li>
         </ul>
       </header>
+
       <section>
-        <h1>
-<a id="guardian" class="anchor" href="#guardian" aria-hidden="true"><span class="octicon octicon-link"></span></a>Guardian</h1>
+<div class="social-buttons">
+  <a class="twitter-share-button"
+    href="https://twitter.com/share"
+    data-url="http://guardianjs.com/"
+    data-text="Guardian.js removes the OAuth dance with a single request."
+    data-via="mashape"
+    data-related="mashape:The API Marketplace,nijikokun"
+    data-size="small"
+    data-count="horizontal">
+  Tweet
+  </a>
+  <script type="text/javascript">
+  window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.getElementById(id)){return}js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);return window.twttr||(t={_e:[],ready:function(f){t._e.push(f)}})}(document,"script","twitter-wjs"));
+  </script>
+  <iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fguardianjs.com%2F&amp;width=100&amp;layout=button_count&amp;action=like&amp;show_faces=false&amp;share=false&amp;height=21&amp;appId=545853018791739" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+</div>
+
+<h1>
+<a id="overview" class="anchor" href="#overview" aria-hidden="true"><span class="octicon octicon-link"></span></a>Overview</h1>
 
 <p>Avoid dealing with OAuth logic in your code, and spend more time creating your product. Guardian reduces the OAuth footprint in your code to a <em>single</em> request.</p>
 
@@ -50,18 +96,12 @@
 <h2>
 <a id="install" class="anchor" href="#install" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install</h2>
 
-<ol>
-<li>Install <a href="http://redis.io/topics/quickstart">Redis</a>
-</li>
-<li>
-<p>Globally install Guardian</p>
+<p>Install <a href="http://redis.io/topics/quickstart">Redis</a>, then install Guardian globally:</p>
 
 <div class="highlight highlight-bash"><pre>$ npm install -g guardian</pre></div>
-</li>
-</ol>
 
 <h2>
-<a id="starting" class="anchor" href="#starting" aria-hidden="true"><span class="octicon octicon-link"></span></a>Starting</h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
 
 <div class="highlight highlight-bash"><pre>$ guardian</pre></div>
 
@@ -70,7 +110,7 @@
 
 <p>Configuration files are loaded from the current working directory of where you call Guardian. Should no configuration argument be passed <code>./config/default.js</code> is loaded.</p>
 
-<div class="highlight highlight-bash"><pre>$ guardian -c <span class="pl-k">&lt;</span>relative configuration path<span class="pl-k">&gt;</span></pre></div>
+<div class="highlight highlight-bash"><pre>$ guardian -c <span class="k">&lt;</span>relative configuration path<span class="k">&gt;</span></pre></div>
 
 <p><strong>Options</strong></p>
 
@@ -153,7 +193,7 @@
 <pre lang="http"><code>POST /store
 </code></pre>
 
-<p>Stores information given, returns a session hash to be used later on. 
+<p>Stores information given, returns a session hash to be used later on.
 Information stored lives for <code>60</code> seconds by default, change <code>redis.expire</code> to alter timeout duration.</p>
 
 <h4>
@@ -296,9 +336,9 @@ Information stored lives for <code>60</code> seconds by default, change <code>re
 
 <div class="highlight highlight-js"><pre>{
   ...
-  auth_type<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>oauth<span class="pl-pds">'</span></span>,
-  auth_version<span class="pl-k">:</span> <span class="pl-c1">2</span>,
-  auth_leg<span class="pl-k">:</span> <span class="pl-c1">3</span>
+  auth_type<span class="k">:</span> <span class="s1"><span class="pds">'</span>oauth<span class="pds">'</span></span>,
+  auth_version<span class="k">:</span> <span class="c1">2</span>,
+  auth_leg<span class="k">:</span> <span class="c1">3</span>
   ...
 }</pre></div>
 
@@ -341,29 +381,29 @@ Information stored lives for <code>60</code> seconds by default, change <code>re
 
 <p>Request:</p>
 
-<div class="highlight highlight-js"><pre><span class="pl-k">&gt;</span> POST https<span class="pl-k">:</span><span class="pl-c">//&lt;guardian-host&gt;/store</span>
+<div class="highlight highlight-js"><pre><span class="k">&gt;</span> POST https<span class="k">:</span><span class="c">//&lt;guardian-host&gt;/store</span>
 
 {
-  client_id<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>Client Identifier<span class="pl-pds">'</span></span>,
-  client_secret<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>Client Secret<span class="pl-pds">'</span></span>,
-  access_name<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>access_token<span class="pl-pds">'</span></span>,
-  authorize_url<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>https://github.com/login/oauth/authorize<span class="pl-pds">'</span></span>,
-  access_url<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>https://github.com/login/oauth/access_token<span class="pl-pds">'</span></span>,
-  request_url<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>https://github.com/login/oauth/request_url<span class="pl-pds">'</span></span>,
-  auth_type<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>oauth<span class="pl-pds">"</span></span>,
-  auth_version<span class="pl-k">:</span> <span class="pl-c1">2</span>,
-  auth_leg<span class="pl-k">:</span> <span class="pl-c1">3</span>,
-  callback<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>http://localhost:3001/callback<span class="pl-pds">"</span></span>
+  client_id<span class="k">:</span> <span class="s1"><span class="pds">'</span>Client Identifier<span class="pds">'</span></span>,
+  client_secret<span class="k">:</span> <span class="s1"><span class="pds">'</span>Client Secret<span class="pds">'</span></span>,
+  access_name<span class="k">:</span> <span class="s1"><span class="pds">'</span>access_token<span class="pds">'</span></span>,
+  authorize_url<span class="k">:</span> <span class="s1"><span class="pds">'</span>https://github.com/login/oauth/authorize<span class="pds">'</span></span>,
+  access_url<span class="k">:</span> <span class="s1"><span class="pds">'</span>https://github.com/login/oauth/access_token<span class="pds">'</span></span>,
+  request_url<span class="k">:</span> <span class="s1"><span class="pds">'</span>https://github.com/login/oauth/request_url<span class="pds">'</span></span>,
+  auth_type<span class="k">:</span> <span class="s1"><span class="pds">"</span>oauth<span class="pds">"</span></span>,
+  auth_version<span class="k">:</span> <span class="c1">2</span>,
+  auth_leg<span class="k">:</span> <span class="c1">3</span>,
+  callback<span class="k">:</span> <span class="s1"><span class="pds">"</span>http://localhost:3001/callback<span class="pds">"</span></span>
 }</pre></div>
 
 <p>Response:</p>
 
-<div class="highlight highlight-js"><pre><span class="pl-k">&lt;</span> <span class="pl-c1">200</span> OK
-<span class="pl-k">&lt;</span> Header<span class="pl-k">:</span> Content<span class="pl-k">-</span>Type<span class="pl-k">=</span>application/json
+<div class="highlight highlight-js"><pre><span class="k">&lt;</span> <span class="c1">200</span> OK
+<span class="k">&lt;</span> Header<span class="k">:</span> Content<span class="k">-</span>Type<span class="k">=</span>application/json
 
-{ 
-  hash<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>&lt;guardian session hash&gt;<span class="pl-pds">'</span></span>, 
-  url<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>https://&lt;guardian-host&gt;/start?hash=&lt;guardian session hash&gt;<span class="pl-pds">'</span></span>
+{
+  hash<span class="k">:</span> <span class="s1"><span class="pds">'</span>&lt;guardian session hash&gt;<span class="pds">'</span></span>,
+  url<span class="k">:</span> <span class="s1"><span class="pds">'</span>https://&lt;guardian-host&gt;/start?hash=&lt;guardian session hash&gt;<span class="pds">'</span></span>
 }</pre></div>
 
 <h3>
@@ -463,21 +503,22 @@ Information stored lives for <code>60</code> seconds by default, change <code>re
 
 <p>To run one of these test you'll need to have keys ready and run the following command:</p>
 
-<div class="highlight highlight-bash"><pre>$ node tests/<span class="pl-k">&lt;</span>provider name<span class="pl-k">&gt;</span>.js \
-  -k {Your Consumer/Client Key/Id} <span class="pl-cce">\ </span>
+<div class="highlight highlight-bash"><pre>$ node tests/<span class="k">&lt;</span>provider name<span class="k">&gt;</span>.js \
+  -k {Your Consumer/Client Key/Id} <span class="cce">\ </span>
   -s {Your Consumer/Client Secret} \
   -h {host, ie: localhost or domain}</pre></div>
 
 <p>Then visit the server running on port <code>3001</code> to start the authentication process.</p>
 
 <p>You will recieve a response with the headers sent, and the returned response from the API, Guardian must be running locally on port <code>3000</code> for these examples to work correctly.</p>
-      </section>
-      <footer>
-        <p>This project is maintained by <a href="https://github.com/Mashape">Mashape</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
-      </footer>
-    </div>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="javascripts/scale.fix.js"></script>
-    
+    <script type="text/javascript">
+      var analytics=analytics||[];(function(){var e=["identify","track","trackLink","trackForm","trackClick","trackSubmit","page","pageview","ab","alias","ready","group"],t=function(e){return function(){analytics.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var n=0;n<e.length;n++)analytics[e[n]]=t(e[n])})(),analytics.load=function(e){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src=("https:"===document.location.protocol?"https://":"http://")+"d2dq2ahtl5zl1z.cloudfront.net/analytics.js/v1/"+e+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(t,n)};
+      analytics.load("iae3f2aqwg");
+      analytics.trackLink($('.github-link'), 'Contribute on Github');
+      analytics.trackLink($('.mashape-link'), 'Go to Mashape.com');
+    </script>
   </body>
 </html>
