@@ -10,95 +10,108 @@ Created with love by [nijikokun](http://github.com/nijikokun) at http://mashape.
 
 ## Requirements
 
-- Node.js
-- Redis
+- [Node.js](http://nodejs.org/download/)
+- [Redis](http://redis.io/topics/quickstart)
 
 ## Install
 
-Setup redis, then:
+1. Install [Redis](http://redis.io/topics/quickstart)
+2. Globally install Guardian
 
-```bash
-$ npm install guardian
-```
+   ```bash
+   $ npm install -g guardian
+   ```
 
 ## Starting
 
 ```bash
-$ node index.js -c <configuration>
+$ guardian
 ```
 
 ### Configuration
 
-Configuration files can be found in the `config` directory, when no configuration file is declared `default.js` is loaded, when declaring which file to use omit the `js` extension like so:
+Configuration files are loaded from the current working directory of where you call Guardian. Should no configuration argument be passed `./config/default.js` is loaded.
 
 ```bash
-$ node index.js -c production
+$ guardian -c <relative configuration path>
 ```
 
-Basic Options:
+**Options**
 
-- `host`
-  *You should set this to be the public ip or domain name as it is utilized to generate the callback uri.*
+- `host` - *Public IP or Domain Name, used to generate the callback uri.*
 
   Default: `localhost:3000`
-- `protocol`
-  *Host protocol*
+- `protocol` - *Host protocol*
 
   Default: `http`
-- `port`
-  *Port on which guardian runs*
+- `port`- *Server port*
 
   Default: `3000`
-- `pid.dir`
-  *Directory where the `.guardian.pid` file will be output, in production environments this is usually `/home/<user>/`, with trailing slash.*
+- `workers` - *Number of forked instances of the Guardian server to run, suggested amount is CPU count.*
+
+  Default: `require('os').cpus().length`
+- `pid.dir` - *`.guardian.pid` file output directory, for production we suggest placing this under the `/home/<user>/` directory, requires trailing slash.*
 
   Default: `./`
 - `redis.host`
 - `redis.port`
 - `redis.pass`
+- `redis.expire` - *TTL in seconds for Guardian session hash*
+- `cookie.secret` - *Guardian cookie secret*
+- `session.secret` - *Guardian session secret*
 
 ## Routes
 
-Each endpoint functions as a step.
+Guardian HTTP API for handling authentication flows.
 
 ### Storage
 
-    POST /store
+```http
+POST /store
+```
 
-Stores information given, returns hash to be used later on. `60` second life on the hashed information by default.
+Stores information given, returns a session hash to be used later on. 
+Information stored lives for `60` seconds by default, change `redis.expire` to alter timeout duration.
 
 #### Parameters
 
-**OAuth 2**
-> Details specific to OAuth2
+###### OAuth 2
+
+Details specific to OAuth2
 
 - `client_id`
 - `client_secret`
 - `grant_type`
-  *Some common values, depends on flow*
+  
+  Common values (heavily dependant on OAuth flow used):
   - `authorization_code`
   - `client_credentials`
   - `password`
   - `refresh_token`
-- `access_name` *access token name, default `access_token`*
-- `authorize_method` *Optional; Authorization Header Method, default is `Bearer`*
-  - Some Possible Values:
-  - `Bearer` *default*
+  - ...
+- `access_name` - *access token name, default `access_token`*
+- `authorize_method` - *Optional; Authorization Header Method*
+  
+  Some Possible Values:
+  - `Bearer` - *default*
   - `OAuth`
   - `Digest`
+  - ...
 - `state`
 - `scope`
 
-**OAuth 1**
-> Details specific to OAuth 1.0a
+###### OAuth 1
+
+Details specific to OAuth 1.0a
 
 - `consumer_key`
 - `consumer_secret`
 - `signature_method`
 - `oauth_token`
 
-**Authentication** *required*
-> General information regarding authentication flow to load plugin, e.g.
+###### Authentication (*required*)
+
+General information regarding authentication flow to load plugin, e.g.
 
 - `auth_type` *a-z chars accepted only*
 
@@ -113,17 +126,11 @@ Stores information given, returns hash to be used later on. `60` second life on 
 
   > What leg of `auth_type` is this?
 
-These are combined to create the plugin file name which is composed like so:
+These are combined to create the [plugin file name](https://github.com/Mashape/guardian/blob/master/lib/core.js#L100-L118).
+
+For example, `plugins/oauth_2_3-legged.js` (OAuth 2 (3-legged)), would look like:
 
 ```js
-type.lower + (flow? '_' + flow : '') + (version? '_' + version : '') + (leg? '_' + leg + '-legged' : '')
-```
-
-For example, OAuth 2 (3-legged) plugin:
-
-```js
-// plugins/oauth_2_3-legged.js
-
 {
   auth_type: 'oauth',
   auth_version: 2,
@@ -131,7 +138,7 @@ For example, OAuth 2 (3-legged) plugin:
 }
 ```
 
-**General**
+###### General
 
 - `request_url`
 - `access_url`
@@ -140,7 +147,9 @@ For example, OAuth 2 (3-legged) plugin:
 
 ### Hash Check
 
-    GET /hash-check
+```http
+GET /hash-check
+```
 
 Allows you to preview / verify your stored information in-case of error or malformed response.
 
@@ -152,32 +161,41 @@ Once again, stored information by default lasts only `10` seconds.
 
 ### Start
 
-    ALL /start
+```http
+GET /start?hash=<guardian store hash>
+```
 
-Begins guardian transactions and authentication steps. These steps are passed with a `302` request and should be followed.
+Begins guardian transactions and authentication steps. 
+These steps are passed with a `302` request and should be followed.
 
 #### Parameters
 
-- `hash`
+- `hash` - *(Guardian storage hash)*
 
-**OAuth 1.0a**
-> Used in the OAuth 1.0a Signature Process for 1-Legged requests. [Example](https://github.com/Mashape/guardian/blob/master/tests/factual.js#L46).
+###### OAuth 1.0a
+
+Used in the OAuth 1.0a Signature Process for 1-Legged requests. [Example](https://github.com/Mashape/guardian/blob/master/tests/factual.js#L46).
 
 - `url` *Calling URL, query parameters will be parsed from here as well as parameters property.*
 - `method` *Calling Method*
 - `body` *Calling Payload or Body*
 - `parameters` *Calling Parameters for Request Signatures or etc...*
 
-## Tests
+## Tests & Examples
 
-Each test in the test folder is based on an API or feature of guardian rather than TDD or BDD based tests, we simply verify whether the authentication succeeds and we get a response from the API about the API information rather than Authentication information.
+Each test in the test folder is based on an API or feature of guardian rather than TDD or BDD based tests, we verify successful authentication and we can retrieve information while authenticated from the API using tokens Guardian provides.
 
-Tests also serve as good [examples](tests/).
+In this manner the tests also serve as very good [examples](tests/) of how to use Guardian.
 
-Each API based test will require something of the likes:
+To run one of these test you'll need to have keys ready and run the following command:
 
+```bash
+$ node tests/<provider name>.js \
+  -k {Your Consumer/Client Key/Id} \ 
+  -s {Your Consumer/Client Secret} \
+  -h {host, ie: localhost or domain}
 ```
-$ node tests/api.js -k {Your Consumer/Client Key/Id} -s {Your Consumer/Client Secret} -h {host, ie: localhost or domain}
-```
 
-You will recieve a response with the headers sent, and the returned response from the API, guardian must be running locally for these tests to work and on the port `3000`. Unless you alter these files~
+Then visit the server running on port `3001` to start the authentication process.
+
+You will recieve a response with the headers sent, and the returned response from the API, Guardian must be running locally on port `3000` for these examples to work correctly.
