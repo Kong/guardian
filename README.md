@@ -22,7 +22,7 @@ Created with love by [nijikokun](http://github.com/nijikokun) at http://mashape.
    $ npm install -g guardian
    ```
 
-## Starting
+## Usage
 
 ```bash
 $ guardian
