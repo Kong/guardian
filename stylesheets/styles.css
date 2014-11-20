@@ -261,6 +261,7 @@ nav.bar {
   color: hsl(0, 0%, 57%);
   background: hsla(0, 100%, 100%, 0.98);
   border-bottom: 1px solid hsl(0, 0%, 87%);
+  z-index: 1;
 }
 
 nav.bar .mashape-link {
@@ -292,6 +293,7 @@ nav.bar ul.inline li:last-of-type:after {
   box-sizing: border-box;
   border-bottom: 1px solid hsl(0, 0%, 87%);
   background: white;
+  z-index: 1;
 }
 
 .banner h1 {
