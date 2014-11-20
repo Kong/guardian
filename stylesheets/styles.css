@@ -448,9 +448,19 @@ header ul li.active > a:hover {
     overflow: hidden;
   }
 
+  nav.bar .inline {
+    display: none;
+  }
+
   .banner .github-link {
     position: absolute;
     top: -10px;
+  }
+
+  .social-buttons {
+    display: block;
+    float: none;
+    margin-bottom: 1em;
   }
 
   header ul {
