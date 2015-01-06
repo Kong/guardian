@@ -26,26 +26,26 @@ ascii.write("guardian", "Thick", function (art) {
   if (cluster.isMaster) {
     var i = 0;
     var pidPath;
-    
+
     // Load Banner
     console.info("\n" + art.rainbow);
-    
+
     // Load configuration
     console.info("Configuration loaded from:", configLocation);
-    
+
     // Generate PID file
     pidPath = config.pid.dir + ".guardian.pid";
     console.info(("Master started with PID " + process.pid + ", saved at: " + pidPath).grey);
     fs.writeFileSync(pidPath, process.pid, 'utf8');
-    
+
     // Output port server is running on.
     console.info("Starting server on port ", config.port);
-    
+
     // Cluster guardian instance
     for (i; i < config.workers; i++) cluster.fork();
   } else {
     // Core requirements
-    var gate    = require('./lib/core'), 
+    var gate    = require('./lib/core'),
         keeper;
 
     // Requires
@@ -177,7 +177,7 @@ ascii.write("guardian", "Thick", function (art) {
             message: 'Invalid plugin specified, could not find plugin: ' + opts.auth.type.toLowerCase() + path.flow + path.version + path.leg
           });
         }
-        
+
         return res.jsonp(500, {
           code: 'ERROR',
           message: e.message
@@ -251,11 +251,17 @@ ascii.write("guardian", "Thick", function (art) {
       var data;
       var args;
 
-      if (!req.session.data) {
-        return res.json(500, {
+      if (typeof req.session === 'undefined' || !req.session.data) {
+        var error = {
           code: 'MISSING_SESSION_DETAILS',
           message: 'Session details are missing, perhaps the redirect url is on another server or the request timed out.'
-        });
+        };
+
+        if (Object.keys(req.query).length) {
+          error.parameters = req.query
+        }
+
+        return res.json(500, error);
       }
 
       // Parse session data
