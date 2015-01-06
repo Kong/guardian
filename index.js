@@ -252,10 +252,16 @@ ascii.write("guardian", "Thick", function (art) {
       var args;
 
       if (typeof req.session === 'undefined' || !req.session.data) {
-        return res.json(500, {
+        var error = {
           code: 'MISSING_SESSION_DETAILS',
           message: 'Session details are missing, perhaps the redirect url is on another server or the request timed out.'
-        });
+        };
+
+        if (Object.keys(req.query).length) {
+          error.parameters = req.query
+        }
+
+        return res.json(500, error);
       }
 
       // Parse session data
