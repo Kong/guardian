@@ -1,5 +1,11 @@
 # Guardian
 
+![][guardian-logo]
+
+
+[Guardian](http://guardianjs.com/) was created with love by [nijikokun](http://github.com/nijikokun) and is maintained by [Mashape](https://github.com/Mashape), who also maintain the open-source API Gateway [Kong](https://github.com/Mashape/kong). 
+
+
 Avoid dealing with OAuth logic in your code, and spend more time creating your product. Guardian reduces the OAuth footprint in your code to a *single* request.
 
 Built with modularity in mind, Guardian leverages plugins to handle OAuth flows, should you encounter a flow that Guardian doesn't handle, create a small flow plugin to do so and carry on. Guardian comes with **5** pre-made plugins that cover **99%** of OAuth services.
@@ -221,3 +227,7 @@ Then visit the server running on port `3001` to start the authentication process
 ## License
 
 [MIT](/LICENSE)
+
+--- 
+
+[guardian-logo]: http://cl.ly/image/263j2G2x2Z1r/Image%202015-10-16%20at%207.46.53%20PM.png
