@@ -5,7 +5,7 @@
 
 [Guardian](http://guardianjs.com/) was created with love by [nijikokun](http://github.com/nijikokun) and is maintained by [Mashape](https://github.com/Mashape), who also maintain the open-source API Gateway [Kong](https://github.com/Mashape/kong). 
 
-##Summary
+## Summary
 
 Avoid dealing with OAuth logic in your code, and spend more time creating your product. Guardian reduces the OAuth footprint in your code to a *single* request.
 
