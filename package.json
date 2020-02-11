@@ -10,7 +10,7 @@
     "asciimo": "*",
     "colors": "*",
     "connect-redis": "1.4.7",
-    "express": "3.2.6",
+    "express": "4.17.1",
     "mashape-oauth": "*",
     "nuuid": "*",
     "optimist": "*",
